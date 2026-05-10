@@ -513,7 +513,7 @@ class WechatClawBot(_PluginBase):
     def _compose_qrcode_image_api_url(self, updated_at: Optional[int] = None) -> str:
         """详情页二维码图片使用插件匿名 API 渲染，避免前端直接加载网页链接。"""
         suffix = f"?ts={int(updated_at)}" if updated_at else ""
-        return f"/api/v1/plugin/{self.__class__.__name__}/qrcode/image{suffix}"
+        return f"api/v1/plugin/{self.__class__.__name__}/qrcode/image{suffix}"
 
     @staticmethod
     def _qrcode_expired(updated_at: Optional[int], ttl_seconds: int = 240) -> bool:
