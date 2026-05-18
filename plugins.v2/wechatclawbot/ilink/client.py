@@ -847,34 +847,18 @@ class ILinkClient:
             "events",
             "msg_list",
             "msgList",
-            "msgs",
             "add_msgs",
             "addMsgs",
             "records",
             "list",
         ]
 
-        candidates = [
-            data.get("msgs"),
-            data.get("updates"),
-            data.get("messages"),
-            data.get("items"),
-            data.get("events"),
-            data.get("msg_list"),
-            data.get("msgList"),
-            data.get("msgs"),
-            data.get("add_msgs"),
-            data.get("addMsgs"),
-            payload.get("msgs"),
-            payload.get("updates"),
-            payload.get("messages"),
-            payload.get("events"),
-            payload.get("msg_list"),
-            payload.get("msgList"),
-            payload.get("msgs"),
-            payload.get("add_msgs"),
-            payload.get("addMsgs"),
-        ]
+        candidates = []
+        for key in list_keys:
+            for obj in [data, payload]:
+                value = obj.get(key)
+                if value is not None and isinstance(value, list):
+                    return value, sync_buf
         for item in candidates:
             if isinstance(item, list):
                 return item, sync_buf
@@ -1031,7 +1015,7 @@ class ILinkClient:
         if not text:
             text = self._pick_value(item, ["content", "message", "msg", "text", "body", "msg_content", "msgContent"])
         if not text:
-            text = self._find_first_value(message, ["content", "text", "message", "msg", "body", "cmd"])
+            text = self._find_first_value(message, ["content", "text", "message", "msg", "body", "cmd"]) 
 
         if not text:
             return None
